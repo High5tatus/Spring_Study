@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mytest.mapper.MemberMapper">
+	<resultMap type="com.mytest.dto.MemberDTO" id="memberMap">
+		<id property="userid" column="userid" />
+		<result property="userid" column="userid" />
+		<result property="userpw" column="userpw" />
+		<result property="username" column="username" />
+		<result property="regDate" column="regdate" />
+		<result property="updateDate" column="updatedate" />
+		<collection property="authList" resultMap="authMap"></collection>
+	</resultMap>
+
+	<resultMap type="com.mytest.dto.AuthDTO" id="authMap">
+		<result property="userid" column="userid" />
+		<result property="auth" column="auth" />
+	</resultMap>
+
+	<insert id="join">
+		insert into tbl_member(userid,username,userpw,regdate,updatedate) values(#{userid},#{username},#{userpw},now(),now())
+	</insert>
+	<insert id="joinauth">
+		insert into tbl_member_auth(userid, auth) values(#{userid}, 'ROLE_USER')
+	</insert>
+
+	<!-- 아이디 중복확인 -->
+	<select id="idCheck" resultType="int">
+		select count(*) from tbl_member where userid=#{userid}
+	</select>
+	<!-- 로그인 -->
+	<select id="loginCheck" resultType="com.mytest.dto.MemberDTO">
+		select * from tbl_member where userid=#{userid}
+	</select>
+
+	<select id="read" resultMap="memberMap">
+		select mem.userid, userpw, username,
+		regdate, updatedate, auth
+		from tbl_member mem left outer join
+		tbl_member_auth auth
+		on
+		mem.userid = auth.userid
+		where mem.userid = #{userid}
+	</select>
+</mapper>
