@@ -13,7 +13,7 @@ public interface BoardMapper {
 	public void insert(BoardDTO board);
 
 	// 전체보기
-	public List<BoardDTO> findAll(HashMap<String, Object> hm);
+	public List<BoardDTO> findAll(HashMap<String, Object> hm);   
 
 	// 상세보기
 	public BoardDTO findByNum(int num);
