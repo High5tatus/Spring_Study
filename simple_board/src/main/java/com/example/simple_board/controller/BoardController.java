@@ -27,7 +27,7 @@ public class BoardController {
 	@PostMapping("api/insert")
 	public String insert(@RequestBody Board board) {
 		boardService.insert(board);
-		return "success";
+		return "success"; 
 	}
 //	@GetMapping("api/get")
 //	public List<Board> list(Model model) {
